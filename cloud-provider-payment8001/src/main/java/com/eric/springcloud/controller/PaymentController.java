@@ -11,6 +11,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author EricRaww
@@ -45,6 +46,19 @@ public class PaymentController {
         } else {
             return new CommonResult(404, "fail"+serverPort);
         }
+    }
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLoadBalance(){
+      return serverPort;
+    }
+    @GetMapping(value = "/payment/timeout")
+    public String paymentTimeout(){
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
     }
 }
 

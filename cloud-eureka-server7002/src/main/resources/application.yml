@@ -13,5 +13,6 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka/
-  server:
-    enable-self-preservation: false
+#      eureka 自我保护
+#  server:
+#    enable-self-preservation: false

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.security.PrivateKey;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author EricRaww
@@ -42,7 +43,7 @@ public class PaymentController {
     public CommonResult getPaymentById(@PathVariable("id") Long id){
         Payment payment = paymentService.getPaymentById(id);
         if(payment !=null){
-            return new CommonResult(200,"success"+serverPort,payment.toString());
+            return new CommonResult(200,"success"+serverPort,payment);
         }else {
             return new CommonResult(500,"fail"+serverPort,"no data");
         }
@@ -58,5 +59,18 @@ public class PaymentController {
             log.info(instance.getServiceId()+"\t"+instance.getHost()+"\t"+instance.getPort()+"\t"+instance.getUri());
         }
         return discoveryClient;
+    }
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLoadBalance(){
+        return serverPort;
+    }
+    @GetMapping(value = "/payment/timeout")
+    public String paymentTimeout(){
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
     }
 }
