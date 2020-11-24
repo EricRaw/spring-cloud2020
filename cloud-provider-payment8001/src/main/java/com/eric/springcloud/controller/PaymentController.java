@@ -47,6 +47,17 @@ public class PaymentController {
             return new CommonResult(404, "fail"+serverPort);
         }
     }
+    @GetMapping(value = "/payment/get/{id}")
+    public CommonResult getPaymentbyIdForGateway(@PathVariable("id") Long id) {
+        Payment payment = paymentService.getPaymentbyId(id);
+        Log.info("@@@@@@@@查询结果"+payment.toString()+" 结果如何？");
+
+        if (payment !=null){
+            return new CommonResult(200, "success"+serverPort,payment);
+        } else {
+            return new CommonResult(404, "fail"+serverPort);
+        }
+    }
     @GetMapping(value = "/payment/lb")
     public String getPaymentLoadBalance(){
       return serverPort;
