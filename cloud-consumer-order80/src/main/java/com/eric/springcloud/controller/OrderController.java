@@ -64,4 +64,14 @@ public class OrderController {
         URI uri = instance.getUri();
         return  restTemplate.getForObject(uri+"/payment/1",CommonResult.class);
     }
+    @GetMapping(value = "/consumer/zipkin")
+    public String getPaymentzipkin(){
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        if(instances == null || instances.size()<=0){
+            return null;
+        }
+        ServiceInstance instance = loadBalancer.instance(instances);
+        URI uri = instance.getUri();
+        return  restTemplate.getForObject(uri+"/payment/zipkin",String.class);
+    }
 }
